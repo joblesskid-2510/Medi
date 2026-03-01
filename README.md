@@ -1,83 +1,197 @@
-# MediBox
+<p align="center">
+  <img src="https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react&logoColor=white" alt="React 18" />
+  <img src="https://img.shields.io/badge/Vite-6-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite 6" />
+  <img src="https://img.shields.io/badge/Firebase-12-FFCA28?style=for-the-badge&logo=firebase&logoColor=black" alt="Firebase" />
+  <img src="https://img.shields.io/badge/WebRTC-Calls-333333?style=for-the-badge&logo=webrtc&logoColor=white" alt="WebRTC" />
+  <img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" alt="License" />
+</p>
 
-MediBox is a role-based healthcare web app built with React, Vite, Firebase, and Firestore.
+# 💊 MediBox
 
-## Features
+**Smart Medicine Verification Platform with Face Recognition**
 
-- Role-based flows for `patient`, `doctor`, `caretaker`, and `admin`
-- Authentication with Firebase Auth
-- Firestore-backed data for users, medicine logs, prescriptions, appointments, calls, and vitals
-- Face verification support via `face-api.js`
-- Video clip upload support via Cloudinary
-- Firebase Hosting deployment config included
+MediBox is a role-based healthcare web application that ensures patients take the right medication at the right time — verified through real-time face recognition. It connects patients, doctors, caretakers, and administrators in a unified platform with video consultations, AI chatbot support, and comprehensive vitals tracking.
 
-## Tech Stack
+---
 
-- React 18
-- Vite 6
-- Firebase (`auth`, `firestore`)
-- React Router DOM
-- Lucide React
-- face-api.js
+## ✨ Features
 
-## Getting Started
+### 🧑‍⚕️ Patient Portal
+- **Face-verified medicine intake** — Camera-based identity confirmation before logging doses
+- **Medicine schedule & history** — View prescriptions and track adherence over time
+- **Vitals tracking** — Log and monitor health vitals with visual charts
+- **Video consultations** — Peer-to-peer WebRTC video calls with doctors
+- **AI Chatbot** — Get instant answers to health-related questions
 
-### 1. Install dependencies
+### 👨‍⚕️ Doctor Dashboard
+- **Patient management** — View assigned patients, prescriptions, and medicine logs
+- **Prescription management** — Create, edit, and manage patient prescriptions
+- **Appointment scheduling** — Manage consultation slots and upcoming appointments
+- **Video calls** — Connect with patients via real-time video
+- **Dose review** — Review face-verified medicine intake clips
+
+### 👥 Caretaker View
+- **Shared dashboard** — Monitor assigned patients with the same tools as doctors
+- **Dose review** — Verify patient medication compliance remotely
+
+### 🛡️ Admin Panel
+- **User management** — Overview of all registered users and roles
+- **Activity logs** — Monitor platform-wide activity
+- **Backend management** — System configuration and data management tools
+- **Analytics dashboard** — Platform statistics and usage metrics
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| **Frontend** | React 18, React Router DOM v6 |
+| **Build Tool** | Vite 6 |
+| **Backend/DB** | Firebase Auth, Cloud Firestore |
+| **Face Recognition** | face-api.js (TensorFlow.js-based) |
+| **Video Calls** | WebRTC with Firestore signaling |
+| **Icons** | Lucide React |
+| **Fonts** | Inter, Orbitron (Google Fonts) |
+| **Hosting** | Firebase Hosting |
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- [Node.js](https://nodejs.org/) (v18+)
+- [Firebase CLI](https://firebase.google.com/docs/cli) (for deployment)
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/joblesskid-2510/Abc.git
+cd Abc
+```
+
+### 2. Install dependencies
 
 ```bash
 npm install
 ```
 
-### 2. Run locally
+### 3. Run the dev server
 
 ```bash
 npm run dev
 ```
 
-App runs on `http://localhost:5173` by default.
+The app will be available at `http://localhost:5173`.
 
-### 3. Build for production
+### 4. Build for production
 
 ```bash
 npm run build
 ```
 
-### 4. Preview production build
-
-```bash
-npm run preview
-```
-
-## Firebase Hosting
-
-This project is configured for Firebase Hosting:
-
-- `firebase.json` serves from `dist`
-- SPA rewrite is enabled (`** -> /index.html`)
-- Default Firebase project is set in `.firebaserc`
-
-Typical deploy flow:
+### 5. Deploy to Firebase
 
 ```bash
 npm run build
 firebase deploy
 ```
 
-## Project Structure
+---
 
-```text
-src/
-  components/
-  context/
-  pages/
-    admin/
-    doctor/
-    patient/
-  utils/
+## 📁 Project Structure
+
+```
+Abc/
+├── index.html                  # Entry HTML with meta & fonts
+├── firebase.json               # Firebase Hosting config
+├── .firebaserc                 # Firebase project alias
+├── vite.config.js              # Vite configuration
+├── package.json
+│
+└── src/
+    ├── main.jsx                # App entry point
+    ├── App.jsx                 # Router & route definitions
+    ├── index.css               # Global styles & design system
+    │
+    ├── components/
+    │   ├── FaceCapture.jsx     # Face registration component
+    │   ├── FaceVerify.jsx      # Face verification component
+    │   ├── Navbar.jsx          # Navigation bar
+    │   └── ProtectedRoute.jsx  # Role-based route guard
+    │
+    ├── context/
+    │   └── AuthContext.jsx     # Firebase auth state provider
+    │
+    ├── pages/
+    │   ├── Landing.jsx         # Public landing page
+    │   ├── Login.jsx           # Login page
+    │   ├── Register.jsx        # Registration page
+    │   ├── VideoCall.jsx       # WebRTC video call page
+    │   ├── Chatbot.jsx         # AI chatbot interface
+    │   │
+    │   ├── patient/
+    │   │   ├── Dashboard.jsx   # Patient home
+    │   │   ├── TakeMedicine.jsx# Face-verified dose logging
+    │   │   ├── History.jsx     # Medicine intake history
+    │   │   └── Vitals.jsx      # Health vitals tracker
+    │   │
+    │   ├── doctor/
+    │   │   ├── Dashboard.jsx   # Doctor home & reviews
+    │   │   ├── Patients.jsx    # Patient management
+    │   │   └── Appointments.jsx# Appointment scheduler
+    │   │
+    │   └── admin/
+    │       ├── Dashboard.jsx   # Admin overview & logs
+    │       └── Backend.jsx     # System management
+    │
+    └── utils/
+        ├── firebase.js         # Firebase app initialization
+        └── db.js               # Firestore CRUD helpers
 ```
 
-## Scripts
+---
 
-- `npm run dev` - start dev server
-- `npm run build` - production build
-- `npm run preview` - preview production build locally
+## 🔐 Role-Based Access
+
+MediBox uses Firebase Auth combined with Firestore user profiles to enforce role-based access control:
+
+| Role | Access Level |
+|------|-------------|
+| `patient` | Personal dashboard, medicine intake, vitals, video calls, chatbot |
+| `doctor` | Patient management, prescriptions, appointments, video calls |
+| `caretaker` | Shared doctor view for monitoring assigned patients |
+| `admin` | Full platform management, user administration, activity logs |
+
+---
+
+## 📜 Scripts
+
+| Command | Description |
+|---------|------------|
+| `npm run dev` | Start Vite dev server with HMR |
+| `npm run build` | Create optimized production build |
+| `npm run preview` | Preview production build locally |
+
+---
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License.
+
+---
+
+<p align="center">
+  Built with ❤️ using React + Firebase
+</p>
