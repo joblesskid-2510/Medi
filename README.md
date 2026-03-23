@@ -12,10 +12,6 @@
 
 MediBox is a role-based healthcare web application that ensures patients take the right medication at the right time — verified through real-time face recognition. It connects patients, doctors, caretakers, and administrators in a unified platform with video consultations, AI chatbot support, and comprehensive vitals tracking.
 
-<p align="center">
-  <a href="https://medibox-app-joy.web.app"><img src="https://img.shields.io/badge/🌐_Live_Demo-medibox--app--joy.web.app-00C9FF?style=for-the-badge" alt="Live Demo" /></a>
-</p>
-
 ---
 
 ## ✨ Features
