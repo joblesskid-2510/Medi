@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { saveMedicineLog, saveClip, getFaceDescriptor, generateId } from '../../utils/db';
 import FaceVerify from '../../components/FaceVerify';
+import MedicineDetection from '../../components/MedicineDetection';
 import { Camera, StopCircle, CheckCircle, Video, Pill, ArrowRight, Loader } from 'lucide-react';
 
 export default function TakeMedicine() {
@@ -20,6 +21,18 @@ export default function TakeMedicine() {
     const [medicineName, setMedicineName] = useState('');
     const [faceLoading, setFaceLoading] = useState(true);
     const [hasFace, setHasFace] = useState(false);
+    const [detectionResult, setDetectionResult] = useState({
+        faceDetected: false,
+        mouthOpen: false,
+        medicineTaken: false,
+    });
+    // Use a ref so stopRecording always reads the latest detection state
+    const detectionRef = useRef({ faceDetected: false, mouthOpen: false, medicineTaken: false });
+
+    const handleDetectionUpdate = useCallback((result) => {
+        detectionRef.current = result;
+        setDetectionResult(result);
+    }, []);
 
     // Check if face is enrolled
     useEffect(() => {
@@ -94,6 +107,7 @@ export default function TakeMedicine() {
                 timestamp: Date.now(),
                 duration: elapsed,
                 status: 'pending',
+                detectionResult: detectionRef.current,
             });
 
             setPhase('done');
@@ -203,7 +217,49 @@ export default function TakeMedicine() {
                                 REC {Math.floor(elapsed / 60).toString().padStart(2, '0')}:{(elapsed % 60).toString().padStart(2, '0')}
                             </div>
                         )}
+                        <MedicineDetection
+                            videoRef={videoRef}
+                            active={recording}
+                            onDetectionUpdate={handleDetectionUpdate}
+                        />
                     </div>
+
+                    {/* Real-time detection feedback */}
+                    {recording && (
+                        <div style={{
+                            display: 'flex',
+                            gap: '10px',
+                            marginBottom: '16px',
+                            flexWrap: 'wrap',
+                        }}>
+                            <span style={{
+                                padding: '4px 12px',
+                                borderRadius: '20px',
+                                fontSize: '0.8rem',
+                                fontWeight: 600,
+                                background: detectionResult.faceDetected
+                                    ? 'rgba(16,185,129,0.15)'
+                                    : 'rgba(239,68,68,0.15)',
+                                border: `1px solid ${detectionResult.faceDetected ? 'var(--success)' : 'var(--danger)'}`,
+                                color: detectionResult.faceDetected ? 'var(--success)' : 'var(--danger)',
+                            }}>
+                                {detectionResult.faceDetected ? '✓ Face Detected' : '✗ No Face'}
+                            </span>
+                            <span style={{
+                                padding: '4px 12px',
+                                borderRadius: '20px',
+                                fontSize: '0.8rem',
+                                fontWeight: 600,
+                                background: detectionResult.medicineTaken
+                                    ? 'rgba(16,185,129,0.15)'
+                                    : 'rgba(245,158,11,0.15)',
+                                border: `1px solid ${detectionResult.medicineTaken ? 'var(--success)' : 'var(--warning)'}`,
+                                color: detectionResult.medicineTaken ? 'var(--success)' : 'var(--warning)',
+                            }}>
+                                {detectionResult.medicineTaken ? '✓ Intake Detected' : '⏳ Waiting for intake...'}
+                            </span>
+                        </div>
+                    )}
 
                     <button
                         onClick={stopRecording}
