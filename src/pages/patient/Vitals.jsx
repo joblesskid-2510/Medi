@@ -68,9 +68,13 @@ export default function Vitals() {
         systolic: '', diastolic: '', temperature: '', heartRate: '', bloodSugar: '', notes: '',
     });
 
-    useEffect(() => { fetchVitals(); }, []);
+    useEffect(() => {
+        if (!currentUser) return;
+        fetchVitals();
+    }, [currentUser]);
 
     async function fetchVitals() {
+        if (!currentUser) return;
         try {
             const v = await getVitalsByPatient(currentUser.id);
             setVitals(v);

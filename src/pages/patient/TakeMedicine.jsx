@@ -53,7 +53,7 @@ export default function TakeMedicine() {
             streamRef.current = stream;
             if (videoRef.current) {
                 videoRef.current.srcObject = stream;
-                videoRef.current.play();
+                videoRef.current.play().catch(err => console.error('Video play error:', err));
             }
 
             const mr = new MediaRecorder(stream, { mimeType: 'video/webm' });

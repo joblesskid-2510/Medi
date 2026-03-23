@@ -58,11 +58,11 @@ export default function History() {
                             <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                                 <div style={{
                                     width: '48px', height: '48px', borderRadius: 'var(--radius-md)',
-                                    background: log.status === 'verified' ? 'rgba(16,185,129,0.1)' : 'rgba(245,158,11,0.1)',
+                                    background: log.status === 'verified' ? 'rgba(16,185,129,0.1)' : log.status === 'rejected' ? 'rgba(239,68,68,0.1)' : 'rgba(245,158,11,0.1)',
                                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                                 }}>
                                     <Pill size={22} style={{
-                                        color: log.status === 'verified' ? 'var(--success)' : 'var(--warning)',
+                                        color: log.status === 'verified' ? 'var(--success)' : log.status === 'rejected' ? 'var(--danger)' : 'var(--warning)',
                                     }} />
                                 </div>
                                 <div>
